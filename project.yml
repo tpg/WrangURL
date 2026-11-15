@@ -68,7 +68,7 @@ targets:
         # Read browsers installed per-user in ~/Applications (Developer ID only; not allowed on the App Store).
         com.apple.security.temporary-exception.files.home-relative-path.read-only:
           - /Applications/
-        # Builds without an Apple Team ID (ad-hoc or self-signed; see scripts/resign.sh) can't load
+        # Builds without an Apple Team ID (ad-hoc, e.g. local Release builds) can't load
         # the embedded Sparkle.framework under the hardened runtime's library validation.
         com.apple.security.cs.disable-library-validation: true
         # Sparkle fetches the update feed and archive.

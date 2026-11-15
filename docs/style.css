@@ -197,7 +197,7 @@ main > section { max-width: var(--wide); margin: 0 auto; padding-inline: var(--g
 /* Long-form sections */
 
 .doc { padding-block: clamp(3rem, 7vw, 5rem); border-top: 1px solid var(--line); }
-.doc > :not(.pair, .wide, .shots-strip, .side, .gatekeeper) { max-width: var(--measure); }
+.doc > :not(.pair, .wide, .shots-strip, .side) { max-width: var(--measure); }
 .section-title {
   font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 800;
@@ -240,93 +240,7 @@ main > section { max-width: var(--wide); margin: 0 auto; padding-inline: var(--g
 }
 .steps h3 { margin: 0 0 0.4rem; font-size: 1.3rem; }
 
-/* Gatekeeper tabs */
-
-.gatekeeper {
-  margin: 1.5rem 0 1rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  overflow: hidden;
-}
-.tablist {
-  display: flex; flex-wrap: wrap; gap: 0.25rem;
-  padding: 0.4rem;
-  background: var(--sunken);
-}
-.tablist [role="tab"] {
-  flex: 1 0 auto;
-  font: 600 0.92rem var(--font);
-  color: var(--muted);
-  background: transparent;
-  border: 0; border-radius: 8px;
-  padding: 0.55rem 0.8rem;
-  cursor: pointer;
-}
-.tablist [role="tab"][aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
-.tablist [role="tab"]:hover { color: var(--ink); }
-.panel { padding: 1.25rem 1.4rem 0.4rem; }
-.panel ol { padding-left: 1.3rem; margin: 0 0 1rem; }
-.panel-title { margin: 0 0 0.75rem; font-size: 1rem; }
-/* Without JavaScript every panel shows, each with its own title. */
-.gatekeeper:not(.js) .tablist { display: none; }
-.gatekeeper:not(.js) .panel + .panel { border-top: 1px solid var(--line); }
-.gatekeeper.js .panel-title { display: none; }
-.gatekeeper.js .panel[hidden] { display: none; }
-
 .note { font-size: 0.93rem; color: var(--muted); }
-
-/* A sketch of the System Settings row, to show what to look for. */
-.mock {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
-  background: var(--bg);
-}
-.mock-head { padding: 0.5rem 0.85rem; font-weight: 700; border-bottom: 1px solid var(--line); }
-.mock-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-  padding: 0.7rem 0.85rem;
-}
-.mock-button {
-  padding: 0.2rem 0.75rem;
-  border-radius: 6px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  font-weight: 600;
-  outline: 2px solid var(--violet);
-  outline-offset: 2px;
-}
-
-.code { position: relative; margin: 0 0 1rem; }
-.code pre {
-  margin: 0;
-  background: var(--sunken);
-  border-radius: 10px;
-  padding: 0.9rem 5.5rem 0.9rem 1rem;
-  overflow-x: auto;
-}
-.code pre code { background: none; padding: 0; font-size: 0.9rem; overflow-wrap: normal; }
-.copy {
-  position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
-  font: 600 0.85rem var(--font);
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  padding: 0.35rem 0.7rem;
-  cursor: pointer;
-}
-
-.why {
-  border-left: 3px solid var(--teal);
-  padding: 0.25rem 0 0.25rem 1rem;
-  margin: 1.25rem 0 0;
-}
-.why summary { cursor: pointer; font-weight: 600; }
-.why[open] summary { margin-bottom: 0.6rem; }
-.why p { color: var(--muted); }
 
 /* Screenshots. The PNGs carry their own window shadow, so no frame is added. */
 
