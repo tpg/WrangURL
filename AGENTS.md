@@ -20,7 +20,7 @@ xcodebuild ... test "-only-testing:WrangURLTests/RoutePlannerTests/singleBrowser
 
 Test output includes harmless `com.apple.linkd.autoShortcut` connection errors from the test host; filter them out.
 
-SwiftLint runs as a build tool plugin (`SimplyDanny/SwiftLintPlugins`) on both targets, so its warnings appear in every build; rules are in `.swiftlint.yml`. Command-line builds need `-skipPackagePluginValidation` because the plugin isn't trusted there; in Xcode, trust it once when prompted. Keep builds free of lint warnings. No formatter is configured. `scripts/release.sh` makes a Developer ID signed, notarized DMG (`SKIP_NOTARIZE=1` to only sign). `scripts/make-app-icon.swift` regenerates `Assets.xcassets/AppIcon.appiconset`.
+SwiftLint runs as a build tool plugin (`SimplyDanny/SwiftLintPlugins`) on both targets, so its warnings appear in every build; rules are in `.swiftlint.yml`. Command-line builds need `-skipPackagePluginValidation` because the plugin isn't trusted there; in Xcode, trust it once when prompted. Keep builds free of lint warnings. No formatter is configured. `scripts/release.sh` makes a Developer ID signed, notarized zip and DMG (`SKIP_NOTARIZE=1` to only sign); the release workflow runs it too. `scripts/make-app-icon.swift` regenerates `Assets.xcassets/AppIcon.appiconset`.
 
 App logs use subsystem `com.thepublicgood.wrangurl`. In zsh, `log` is a shell builtin, so call `/usr/bin/log stream --level info --predicate 'subsystem == "com.thepublicgood.wrangurl"'`.
 
@@ -66,7 +66,7 @@ They reach SwiftUI through `View.appEnvironment(_:)` in `WrangURLApp.swift`, so 
 - When setting the default browser, confirming the `http` dialog also switches `https`. `makeDefault()` therefore skips schemes already handled and judges success by the final state.
 - Release builds set `CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO`, because notarization rejects `get-task-allow`.
 - Sparkle needs `SUEnableInstallerLauncherService`, the `-spks`/`-spki` mach-lookup exceptions and `network.client`. Its feed is `releases/latest/download/appcast.xml`, which the release workflow generates and signs with the `SPARKLE_PRIVATE_KEY` secret. Updates are accepted on the EdDSA signature.
-- Release builds from CI are built ad-hoc, then re-signed by `scripts/resign.sh` with the self-signed "WrangURL Self-Signed" certificate. Xcode won't sign with an untrusted identity. An ad-hoc designated requirement is the build's hash, so without this each update would look like a different app to macOS. Builds without a Team ID need `disable-library-validation` to load Sparkle.framework. Debug builds only work without it because of `get-task-allow`.
+- Releases are signed with the Developer ID of team `3A6RMA5S3D` by archiving and exporting (`scripts/release.sh`), which re-signs Sparkle's helpers too; the app and DMG are notarized and stapled. Releases up to 0.5.x were signed with a self-signed certificate. Sparkle accepts the change of code signing identity because the EdDSA key stayed the same, so never change both at once. Ad-hoc builds (local Release builds) have no Team ID and need `disable-library-validation` to load Sparkle.framework. Debug builds only work without it because of `get-task-allow`.
 
 ## Testing and manual UI checks
 

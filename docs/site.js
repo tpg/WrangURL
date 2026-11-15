@@ -46,51 +46,12 @@
   start();
 })();
 
-// Gatekeeper instructions: turn the stacked panels into tabs.
-document.querySelectorAll("[data-tabs]").forEach(root => {
-  const tabs = [...root.querySelectorAll('[role="tab"]')];
-  const select = (tab, focus) => {
-    tabs.forEach(t => {
-      const on = t === tab;
-      t.setAttribute("aria-selected", on);
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
-    });
-    if (focus) tab.focus();
-  };
-  tabs.forEach((tab, n) => {
-    tab.addEventListener("click", () => select(tab));
-    tab.addEventListener("keydown", e => {
-      const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-      if (step) { e.preventDefault(); select(tabs[(n + step + tabs.length) % tabs.length], true); }
-      if (e.key === "Home") { e.preventDefault(); select(tabs[0], true); }
-      if (e.key === "End") { e.preventDefault(); select(tabs.at(-1), true); }
-    });
-  });
-  root.classList.add("js");
-  select(tabs[0]);
-});
-
-// Copy buttons.
-document.querySelectorAll("[data-copy]").forEach(button => {
-  button.addEventListener("click", async () => {
-    const text = document.getElementById(button.dataset.copy).textContent;
-    try {
-      await navigator.clipboard.writeText(text);
-      button.textContent = "Copied";
-    } catch {
-      button.textContent = "Select and copy";
-    }
-    setTimeout(() => (button.textContent = "Copy"), 2000);
-  });
-});
-
-// Point the download button at the latest release's zip, and show its version.
+// Point the download button at the latest release's DMG (older releases only have a zip), and show its version.
 fetch("https://api.github.com/repos/warrickbayman/WrangURL/releases/latest")
   .then(r => (r.ok ? r.json() : Promise.reject()))
   .then(release => {
-    const zip = release.assets.find(a => a.name.endsWith(".zip"));
-    if (zip) document.getElementById("download").href = zip.browser_download_url;
+    const asset = release.assets.find(a => a.name.endsWith(".dmg")) ?? release.assets.find(a => a.name.endsWith(".zip"));
+    if (asset) document.getElementById("download").href = asset.browser_download_url;
     const date = new Date(release.published_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
     document.getElementById("version").textContent = `Version ${release.tag_name.replace(/^v/, "")}, released ${date}`;
   })

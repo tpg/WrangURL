@@ -33,4 +33,3 @@ Outside the scope of this policy:
 - vulnerabilities in the browsers WrangURL opens links in, which should be reported to their developers
 - vulnerabilities in [Sparkle](https://github.com/sparkle-project/Sparkle/security) itself, unless WrangURL's use of it is the problem
 - anything that needs an attacker to already control your user account, such as editing `config.json` directly
-- releases being signed with a self-signed certificate instead of an Apple Developer ID. This is a known choice, and [the README](README.md) explains it.

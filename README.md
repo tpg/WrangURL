@@ -121,18 +121,22 @@ When you set a development build as your default browser, macOS records the path
 
 ### Releasing
 
-Publishing a GitHub release runs `.github/workflows/release.yml`. It builds the app, re-signs it with a self-signed certificate (`scripts/resign.sh`) so every release has the same code signing identity, and attaches it to the release as a zip, along with the Sparkle `appcast.xml` that installed copies check for updates. The release notes become the update notes. The workflow needs the `SPARKLE_PRIVATE_KEY` repository secret. That's the EdDSA private key whose public half is `SUPublicEDKey` in `project.yml`. Export it with Sparkle's `generate_keys --account wrangurl -x <file>`. It also needs `SIGNING_CERTIFICATE_P12` (the base64-encoded "WrangURL Self-Signed" identity, exported from Keychain Access as a .p12) and `SIGNING_CERTIFICATE_PASSWORD`. The build number is the workflow run number, so each release is newer than the one before it.
+`scripts/release.sh` builds a Developer ID signed, notarized and stapled app in `build/release/`, packaged as a zip (for Sparkle updates) and a DMG (for downloads). It needs:
 
-`scripts/release.sh` builds a signed, notarized app and DMG in `build/release/`. It needs:
-
-- A **Developer ID Application** certificate in your keychain.
+- A **Developer ID Application** certificate for team `3A6RMA5S3D` in your keychain.
 - Notarization credentials saved once with:
 
   ```sh
-  xcrun notarytool store-credentials WrangURL --apple-id <your Apple ID> --team-id <your team ID>
+  xcrun notarytool store-credentials WrangURL --apple-id <your Apple ID> --team-id 3A6RMA5S3D
   ```
 
 Set `SKIP_NOTARIZE=1` to build and sign without notarizing. There are more details at the top of the script.
+
+Publishing a GitHub release runs `.github/workflows/release.yml`, which runs `scripts/release.sh` and attaches the zip, the DMG and the Sparkle `appcast.xml` that installed copies check for updates to the release. The release notes become the update notes, and the build number is the workflow run number, so each release is newer than the one before it. The workflow needs these repository secrets:
+
+- `SPARKLE_PRIVATE_KEY`: the EdDSA private key whose public half is `SUPublicEDKey` in `project.yml`. Export it with Sparkle's `generate_keys --account wrangurl -x <file>`.
+- `DEVELOPER_ID_CERTIFICATE_P12` and `DEVELOPER_ID_CERTIFICATE_PASSWORD`: the Developer ID Application certificate and its private key, exported from Keychain Access as a .p12, base64-encoded (`base64 -i cert.p12 | pbcopy`), and the password you gave the .p12.
+- `NOTARY_API_KEY`, `NOTARY_API_KEY_ID` and `NOTARY_API_ISSUER_ID`: an App Store Connect API key for notarization. Create one with the Developer role in App Store Connect under Users and Access → Integrations → Team Keys. `NOTARY_API_KEY` is the downloaded .p8, base64-encoded; the key ID and issuer ID are shown on that page.
 
 ## Testing
 

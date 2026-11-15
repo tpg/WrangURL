@@ -106,85 +106,21 @@
       <li>
         <h3>Download the latest release</h3>
         <p>
-          Get <code>WrangURL-&lt;version&gt;.zip</code> from the
-          <a href="https://github.com/warrickbayman/WrangURL/releases/latest">latest GitHub release</a>.
-          Safari unzips it for you. In other browsers, double-click the zip in Downloads.
+          Get <code>WrangURL-&lt;version&gt;.dmg</code> from the
+          <a href="https://github.com/warrickbayman/WrangURL/releases/latest">latest GitHub release</a>
+          and open it.
         </p>
       </li>
       <li>
         <h3>Move it to Applications</h3>
         <p>
-          Drag <b>WrangURL.app</b> into your <b>Applications</b> folder before you open it.
+          Drag <b>WrangURL</b> onto the <b>Applications</b> folder in the window that opens, then open it from there.
           macOS remembers where your default browser lives, so moving the app later means setting it as the default again.
         </p>
-      </li>
-      <li>
-        <h3>Allow it past Gatekeeper</h3>
-        <p>
-          The first time you open WrangURL, macOS stops it with a message saying Apple could not verify
-          that “WrangURL” is free of malware. Click <b>Done</b>, not <b>Move to Trash</b>, then follow the steps for your macOS version.
+        <p class="note">
+          WrangURL is signed with an Apple Developer ID and notarized by Apple, so it opens without a security warning.
+          Updates from <b>Check for Updates…</b> are also checked against a signing key before they’re installed.
         </p>
-
-        <div class="gatekeeper" data-tabs>
-          <div class="tablist" role="tablist" aria-label="Ways to open WrangURL the first time">
-            <button role="tab" id="tab-sequoia" aria-controls="panel-sequoia">macOS 15 or later</button>
-            <button role="tab" id="tab-sonoma" aria-controls="panel-sonoma">macOS 14 Sonoma</button>
-            <button role="tab" id="tab-terminal" aria-controls="panel-terminal">Using Terminal</button>
-          </div>
-
-          <div class="panel" role="tabpanel" id="panel-sequoia" aria-labelledby="tab-sequoia" tabindex="0">
-            <h4 class="panel-title">macOS 15 Sequoia, macOS 26 Tahoe and later</h4>
-            <ol>
-              <li>Open <b>System Settings</b> and choose <b>Privacy &amp; Security</b>.</li>
-              <li>Scroll down to the <b>Security</b> section. You’ll see “WrangURL” was blocked to protect your Mac.</li>
-              <li>Click <b>Open Anyway</b> and enter your password or use Touch&nbsp;ID.</li>
-              <li>In the dialog that follows, click <b>Open Anyway</b> again.</li>
-            </ol>
-            <div class="mock" aria-hidden="true">
-              <div class="mock-head">Security</div>
-              <div class="mock-row">
-                <span>“WrangURL” was blocked to protect your Mac.</span>
-                <span class="mock-button">Open Anyway</span>
-              </div>
-            </div>
-            <p class="note">If you don’t see the message, open WrangURL once more so macOS blocks it again, then come back to Privacy &amp; Security.</p>
-          </div>
-
-          <div class="panel" role="tabpanel" id="panel-sonoma" aria-labelledby="tab-sonoma" tabindex="0">
-            <h4 class="panel-title">macOS 14 Sonoma</h4>
-            <ol>
-              <li>In Finder, open your <b>Applications</b> folder.</li>
-              <li>Hold <kbd>Control</kbd> and click <b>WrangURL</b>, then choose <b>Open</b> from the menu.</li>
-              <li>In the dialog that follows, click <b>Open</b>.</li>
-            </ol>
-            <p class="note">The Privacy &amp; Security route described for macOS 15 works on Sonoma too.</p>
-          </div>
-
-          <div class="panel" role="tabpanel" id="panel-terminal" aria-labelledby="tab-terminal" tabindex="0">
-            <h4 class="panel-title">Using Terminal, on any version</h4>
-            <p>Remove the quarantine flag macOS added when you downloaded the app:</p>
-            <div class="code">
-              <pre><code id="xattr-cmd">xattr -dr com.apple.quarantine /Applications/WrangURL.app</code></pre>
-              <button class="copy" type="button" data-copy="xattr-cmd">Copy</button>
-            </div>
-            <p>Then open WrangURL as usual. This only changes this one app.</p>
-          </div>
-        </div>
-
-        <details class="why">
-          <summary>Why does macOS block WrangURL?</summary>
-          <p>
-            Apple only trusts apps without a warning when they’re signed with a paid Apple Developer ID and
-            sent to Apple for notarization. WrangURL releases are signed with a self-signed certificate instead,
-            so every release carries the same identity, but Apple can’t vouch for it.
-          </p>
-          <p>
-            You only need to allow it once. Updates from <b>Check for Updates…</b> are verified with a
-            signing key before they’re installed and open without a warning. If you’d rather not trust a
-            download, you can <a href="https://github.com/warrickbayman/WrangURL#building">build WrangURL from source</a>
-            with Xcode.
-          </p>
-        </details>
       </li>
       <li>
         <h3>Run the setup assistant</h3>
