@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ps -axo pid,lstart,command)",
+      "Bash(xcodegen generate *)",
+      "Bash(xcodebuild -project WrangURL.xcodeproj -scheme WrangURL -derivedDataPath build/DerivedData -skipPackagePluginValidation test)"
+    ]
+  }
+}
